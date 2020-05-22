@@ -26,11 +26,8 @@ public class ProgramBiuro {
     private static void initialize() {
         MongoClient mongoClient = new MongoClient(host, port);
         MongoCredential credential = MongoCredential.createCredential(user, datebase, password.toCharArray());
-
         MongoDatabase db = mongoClient.getDatabase(datebase);
-
         db.getCollection("biuropodrozy").drop();
-
         collection = db.getCollection("biuropodrozy");
     }
     static private void akcja(int wybor) {
@@ -65,12 +62,33 @@ public class ProgramBiuro {
             akcja(wybor);
         }
     }
+	static private void showMenu() {
+        System.out.println("\n BIURO PODRÓŻY:");
+        System.out.println("1 - Dodaj nowż wycieczkę ");
+        System.out.println("2 - Wyświetl wszystkie wycieczki ");
+        System.out.println("3 - Wyświetl wycieczkę po id ");
+        System.out.println("4 - Zaktualizuj wycieczkę");
+        System.out.println("5 - Usuń wycieczkę");
+        System.out.println("0 - WYJŚCIE\n");
+    }
+
+    static private int getWyborMenu() {
+        int wybor = -1;
+        do {
+            System.out.println("Podaj wybór:");
+            wybor = Integer.parseInt(scanner.nextLine());
+            if (wybor < 0 || wybor > 6) {
+                System.out.println("Brak takiej opcji!");
+            }
+        } while (wybor < 0 || wybor > 6);
+        return wybor;
+    }
     private static void addNew() {
         Wycieczka wycieczka = new Wycieczka();
         System.out.println("\n Podaj ID wycieczki:");
         wycieczka.id = Integer.parseInt(scanner.nextLine());
 
-        System.out.println(" Podaj date wizyty: ");
+        System.out.println(" Podaj date wycieszki: ");
         wycieczka.data = scanner.nextLine();
 
         System.out.println(" Podaj ilość dni: ");
@@ -264,27 +282,7 @@ public class ProgramBiuro {
         System.out.println("\n Usunięto wycieczkę");
     }
 
-    static private void showMenu() {
-        System.out.println("\n**************  Biuro Podróży:  ***************");
-        System.out.println("1 - Dodaj nowż wycieczkę ");
-        System.out.println("2 - Wyświetl wszystkie wycieczki ");
-        System.out.println("3 - Wyświetl wycieczkę po id ");
-        System.out.println("4 - Zaktualizuj wycieczkę");
-        System.out.println("5 - Usuń wycieczkę");
-        System.out.println("0 - WYJŚCIE\n");
-    }
-
-    static private int getWyborMenu() {
-        int wybor = -1;
-        do {
-            System.out.println("Podaj wybór:");
-            wybor = Integer.parseInt(scanner.nextLine());
-            if (wybor < 0 || wybor > 6) {
-                System.out.println("Brak takiej opcji!");
-            }
-        } while (wybor < 0 || wybor > 6);
-        return wybor;
-    }
+    
 
     public static void main(String[] args) {
         Logger logger = Logger.getLogger("");
